@@ -1,0 +1,6 @@
+dist/
+*.bak
+*.tmp
+.DS_Store
+# Field-name brute-forcing scripts, kept local
+brute/
