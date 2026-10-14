@@ -12,7 +12,7 @@ APP      := DeS Save Editor
 SLUG     := DeS-Save-Editor
 VERSION  := $(shell sed -n 's/^ *Version *= *"\(.*\)"/\1/p' FyneApp.toml)
 DIST     := dist
-TMP      := $(DIST)/.tmp
+BUILD_TMP := $(DIST)/.tmp
 LDFLAGS  := -s -w
 FYNE     ?= $(shell go env GOPATH)/bin/fyne
 MINGW_CC ?= x86_64-w64-mingw32-gcc
@@ -34,16 +34,16 @@ cli:
 	done
 
 macos:
-	@mkdir -p $(TMP)
-	CGO_ENABLED=1 GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags "$(LDFLAGS)" -o $(TMP)/editor-arm64 .
-	CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -trimpath -ldflags "$(LDFLAGS)" -o $(TMP)/editor-amd64 .
-	lipo -create -output $(TMP)/des-save-editor $(TMP)/editor-arm64 $(TMP)/editor-amd64
+	@mkdir -p $(BUILD_TMP)
+	CGO_ENABLED=1 GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags "$(LDFLAGS)" -o $(BUILD_TMP)/editor-arm64 .
+	CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 go build -trimpath -ldflags "$(LDFLAGS)" -o $(BUILD_TMP)/editor-amd64 .
+	lipo -create -output $(BUILD_TMP)/des-save-editor $(BUILD_TMP)/editor-arm64 $(BUILD_TMP)/editor-amd64
 	rm -rf "$(DIST)/$(APP).app"
-	$(FYNE) package --os darwin --release --exe $(TMP)/des-save-editor --name "$(APP)"
+	$(FYNE) package --os darwin --release --exe $(BUILD_TMP)/des-save-editor --name "$(APP)"
 	mv "$(APP).app" "$(DIST)/"
 	cd $(DIST) && rm -f $(SLUG)-$(VERSION)-macos-universal.zip && \
 		ditto -c -k --keepParent "$(APP).app" $(SLUG)-$(VERSION)-macos-universal.zip
-	rm -rf $(TMP)
+	rm -rf $(BUILD_TMP)
 
 windows:
 	@mkdir -p $(DIST)
