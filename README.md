@@ -84,8 +84,8 @@ Know a field name? Add it to [internal/save/names.go](internal/save/names.go), o
 You need [Go](https://go.dev) and a C compiler, because the [Fyne](https://fyne.io) GUI toolkit uses cgo:
 
 - **macOS**: Xcode Command Line Tools (`xcode-select --install`).
-- **Linux**: `gcc` plus OpenGL/X11 headers, e.g. on Debian/Ubuntu
-  `sudo apt install gcc libgl1-mesa-dev xorg-dev`.
+- **Linux**: `gcc` plus OpenGL, X11 and Wayland headers, e.g. on Debian/Ubuntu
+  `sudo apt install gcc libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols`.
 - **Windows**: a MinGW-w64 gcc, e.g. from [MSYS2](https://www.msys2.org) (`pacman -S mingw-w64-ucrt-x86_64-gcc`).
 
 ```bash

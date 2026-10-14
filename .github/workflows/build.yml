@@ -12,17 +12,19 @@ permissions:
 
 env:
   FYNE_TOOL: fyne.io/tools/cmd/fyne@v1.7.3
+  # Fyne's GLFW backend builds both X11 and Wayland support.
+  LINUX_DEPS: gcc libgl1-mesa-dev xorg-dev libwayland-dev libxkbcommon-dev wayland-protocols
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
       - name: Install GUI build dependencies
-        run: sudo apt-get update && sudo apt-get install -y gcc libgl1-mesa-dev xorg-dev
+        run: sudo apt-get update && sudo apt-get install -y $LINUX_DEPS
       - run: go vet ./...
       - run: go test ./...
 
@@ -40,8 +42,8 @@ jobs:
             name: windows
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
       - name: Install Fyne packaging tool
@@ -54,7 +56,7 @@ jobs:
       - name: Build Linux package and command-line tools
         if: matrix.name == 'linux'
         run: |
-          sudo apt-get update && sudo apt-get install -y gcc libgl1-mesa-dev xorg-dev
+          sudo apt-get update && sudo apt-get install -y $LINUX_DEPS
           make linux cli
 
       - name: Set up MSYS2 (gcc and make)
