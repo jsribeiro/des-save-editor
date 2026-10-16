@@ -47,7 +47,7 @@ Other notable values, the same in all three files:
 - `CHARACTER_NEW_ARCHSTONE` = 1.
 - A 93-record object `0x639244AA` with colours and face-slider floats (the character creator).
 
-## Character creation saves (`RE/`)
+## Character creation saves (`characters/`)
 
 Five new characters, saved at the start of the Outpost Passage (tutorial), to map character creation
 choices. Animation style matched the body type on A–D; E has body Type A with animation style B.

@@ -15,7 +15,7 @@ All notable changes to this project are documented here. The format is based on
   some inside the character-creator object. Editing one of these choices updates every copy.
 - New known field names: `PLAYER_ARCHETYPE`, `PLAYER_ISMALE`, `PLAYER_VOICETYPE`,
   `PLAYER_STARTINGGIFT`, `CLEARCOUNT` and `DEMONSKILLED`. `dessave` and the All fields tab show them.
-- Five character creation saves in `samples/RE/` that map these fields, documented in
+- Five character creation saves in `samples/characters/` that map these fields, documented in
   `samples/README.md`, with each class's starting attributes, HP, MP and stamina.
 
 ### Changed

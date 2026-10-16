@@ -10,6 +10,13 @@ or any other field in the file.
 
 <p align="center"><img src="docs/screenshot.png" alt="The editor's Character tab" width="560"></p>
 
+<details>
+<summary>More screenshots</summary>
+
+<p align="center"><img src="docs/screenshot-stats.png" alt="The editor's Stats tab" width="560"></p>
+<p align="center"><img src="docs/screenshot-fields.png" alt="The editor's All fields tab" width="560"></p>
+</details>
+
 > [!WARNING]
 > The save format is still being reverse engineered. Edited souls and attributes have been loaded
 > in game successfully, but **always keep a backup of your save** and test edits carefully.

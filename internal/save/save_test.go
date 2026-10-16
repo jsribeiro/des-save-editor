@@ -104,11 +104,11 @@ func TestCharacterCreationSamples(t *testing.T) {
 		{"D", "7", "true", "2", "5"},  // Thief, Type B, 2nd gift, 3rd voice
 		{"E", "8", "false", "3", "0"}, // Temple Knight, Type A (animation B), 3rd gift, 4th voice
 	} {
-		s, err := Parse(loadSample(t, "../../samples/RE/USR-DATA-"+c.file))
+		s, err := Parse(loadSample(t, "../../samples/characters/USR-DATA-"+c.file))
 		if err != nil {
 			t.Fatalf("%s: %v", c.file, err)
 		}
-		if out := s.Bytes(); !bytes.Equal(out, loadSample(t, "../../samples/RE/USR-DATA-"+c.file)) {
+		if out := s.Bytes(); !bytes.Equal(out, loadSample(t, "../../samples/characters/USR-DATA-"+c.file)) {
 			t.Errorf("%s: re-serialized save differs", c.file)
 		}
 		for name, want := range map[string]string{
