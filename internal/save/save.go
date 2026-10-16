@@ -202,6 +202,26 @@ func (s *Save) FindName(name string) *Record {
 	return s.Find(Hash(name))
 }
 
+// FindPath follows keys through nested objects, starting at the top level, and returns the record or nil.
+func (s *Save) FindPath(keys ...uint32) *Record {
+	recs := s.Records
+	var found *Record
+	for _, k := range keys {
+		found = nil
+		for _, r := range recs {
+			if r.Key == k {
+				found = r
+				break
+			}
+		}
+		if found == nil {
+			return nil
+		}
+		recs = found.Children
+	}
+	return found
+}
+
 // Walk visits every record depth-first.
 func (s *Save) Walk(fn func(r *Record, depth int)) {
 	var walk func([]*Record, int)

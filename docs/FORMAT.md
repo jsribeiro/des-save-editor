@@ -50,6 +50,13 @@ add the name to `knownNames`; the editor and `dessave` show it wherever its hash
 | `PLAYER_BASEMAXHP`, `PLAYER_CURRENTMAXHP`, `PLAYER_CURRENTHP` | HP |
 | `PLAYER_BASEMAXMP`, `PLAYER_CURRENTMAXMP`, `PLAYER_CURRENTMP` | MP |
 | `PLAYER_BASEMAXSP`, `PLAYER_CURRENTMAXSP`, `PLAYER_CURRENTSP` | Stamina |
+| `PLAYER_ARCHETYPE` | Class, in character creation order: 0 Soldier, 1 Knight, 2 Hunter, 3 Priest, 4 Magician, 5 Wanderer, 6 Barbarian, 7 Thief, 8 Temple Knight, 9 Royalty. Confirmed for 0, 1, 4, 7 and 9; starting attributes match the original game's classes. |
+| `PLAYER_ISMALE` | Body type: `false` = Type A, `true` = Type B. Copies: `0xF3E6ADE6` (1 = Type A) and `0x6B00F985` in the character-creator object (1 = Type B). |
+| `0xA3C2D71A` | Animation style (name unknown): `false` = Type A, `true` = Type B. Copies: `0x62A15576` and `0xF5925F05` in the creator object (both 1 = Type A). |
+| `PLAYER_VOICETYPE` | Voice (u8). Vocals A–F (menu order) are 3, 4, 5, 0, 1, 2. Copied to `0x33E2F887` and to `0xCE09E754` in the character-creator object. |
+| `PLAYER_STARTINGGIFT` | Starting gift (u8), in menu order: 0 None, 1 Augite of Guidance, 2 Grass Jelly, 3 Elixir, 4 Bright Water, 5 Providential Ring, 6 Kunai, 7 Fire Bomb, 8 Soul Remains, 9 Fire Arrow. |
+| `CLEARCOUNT` | Completed playthroughs: 0 on the first, 1 on NG+, … |
+| `DEMONSKILLED` | Demons (bosses) killed; 1 in the samples |
 | `CHARACTER_NEW_ARCHSTONE` | Unknown flag |
 
 ## Notes

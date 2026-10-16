@@ -16,13 +16,14 @@ or any other field in the file.
 
 ## Features
 
-- **Character**: name, souls and total souls gained, play time.
-- **Attributes**: the eight attributes, base and current. By default, changing a base value also
-  updates its current value (keeping any equipment bonus) and the attribute total, so the game's
-  soul level stays consistent. Values are limited to 1–99, as in game (maximum soul level 712).
+- **Character**: name, class, body type, animation style, voice, starting gift and play time;
+  New Game cycle and demons killed.
 - **Souls**: by default, raising your souls raises *total souls gained* by the same amount,
   as gaining souls in game does.
-- **HP / MP / Stamina**: base max, current max and current values.
+- **Stats**: the eight attributes, base and current. By default, changing a base value also
+  updates its current value (keeping any equipment bonus) and the attribute total, so the game's
+  soul level stays consistent. Values are limited to 1–99, as in game (maximum soul level 712).
+  HP, MP and stamina: base max, current max and current values.
 - **All fields**: every record in the file, nested ones included, with a filter. Fields without a
   known name show their key in hex. Any number, true/false or text value can be edited.
 - **Safe saving**: every save writes a timestamped backup next to the file first

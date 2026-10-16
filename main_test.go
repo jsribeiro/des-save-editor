@@ -195,12 +195,100 @@ func TestAttributeLimits(t *testing.T) {
 	}
 }
 
+func choiceByName(t *testing.T, ed *editor, name string) *choice {
+	t.Helper()
+	for _, c := range ed.choices {
+		if c.name == name {
+			return c
+		}
+	}
+	t.Fatalf("no choice %s", name)
+	return nil
+}
+
+func TestCharacterChoices(t *testing.T) {
+	ed, path := openSample(t)
+	class, body := choiceByName(t, ed, "PLAYER_ARCHETYPE"), choiceByName(t, ed, "PLAYER_ISMALE")
+	if class.sel.Selected != "Knight" || body.sel.Selected != "Type B" {
+		t.Fatalf("class = %q, body = %q", class.sel.Selected, body.sel.Selected)
+	}
+	if ed.demonsKilled.Text != "1" {
+		t.Errorf("demons killed = %q", ed.demonsKilled.Text)
+	}
+	if ed.dirty {
+		t.Error("loading marked the editor dirty")
+	}
+	if gift := choiceByName(t, ed, "PLAYER_STARTINGGIFT"); gift.sel.Selected != "Providential Ring" {
+		t.Errorf("gift = %q", gift.sel.Selected)
+	}
+	if voice := choiceByName(t, ed, "PLAYER_VOICETYPE"); voice.sel.Selected != "Vocals D" {
+		t.Errorf("voice = %q", voice.sel.Selected)
+	}
+	class.sel.SetSelected("Royalty")
+	body.sel.SetSelected("Type A")
+	choiceByName(t, ed, "0xA3C2D71A").sel.SetSelected("Type A")
+	choiceByName(t, ed, "PLAYER_VOICETYPE").sel.SetSelected("Vocals F")
+	typeInto(fieldByName(t, ed, "CLEARCOUNT"), "2")
+	if !ed.dirty {
+		t.Error("editor not marked dirty")
+	}
+	ed.saveInPlace()
+
+	s := reload(t, path)
+	for name, want := range map[string]string{
+		"PLAYER_ARCHETYPE": "9",
+		"PLAYER_ISMALE":    "false",
+		"CLEARCOUNT":       "2",
+	} {
+		if got := s.FindName(name).String(); got != want {
+			t.Errorf("%s = %s, want %s", name, got, want)
+		}
+	}
+	// Copies of body type, animation style and voice follow the main field.
+	for _, c := range []struct {
+		path []uint32
+		want string
+	}{
+		{[]uint32{keyNotMale}, "1"},
+		{[]uint32{keyAppearance, keyAppearanceMale}, "0"},
+		{[]uint32{keyAnimationB}, "false"},
+		{[]uint32{keyNotAnimationB}, "1"},
+		{[]uint32{keyAppearance, keyAppearanceAnimA}, "1"},
+		{[]uint32{save.Hash("PLAYER_VOICETYPE")}, "2"},
+		{[]uint32{keyVoiceCopy}, "2"},
+		{[]uint32{keyAppearance, keyAppearanceVoice}, "2"},
+	} {
+		if got := s.FindPath(c.path...).String(); got != c.want {
+			t.Errorf("%08X = %s, want %s", c.path, got, c.want)
+		}
+	}
+}
+
+func TestUnknownChoiceValue(t *testing.T) {
+	ed, _ := openSample(t)
+	ed.save.FindName("PLAYER_ARCHETYPE").SetInt(42)
+	ed.loadForm()
+	class := choiceByName(t, ed, "PLAYER_ARCHETYPE")
+	if class.sel.Selected != "Unknown (42)" {
+		t.Errorf("selected = %q", class.sel.Selected)
+	}
+	class.sel.SetSelected("Thief")
+	if got := ed.save.FindName("PLAYER_ARCHETYPE").String(); got != "7" {
+		t.Errorf("archetype = %s, want 7", got)
+	}
+}
+
 func TestNoFileLoaded(t *testing.T) {
 	test.NewTempApp(t)
 	ed := newEditor(test.NewTempWindow(t, nil))
 	for _, f := range ed.fields {
 		if !f.entry.Disabled() {
 			t.Errorf("%s is editable with no file open", f.name)
+		}
+	}
+	for _, c := range ed.choices {
+		if !c.sel.Disabled() {
+			t.Errorf("%s is editable with no file open", c.name)
 		}
 	}
 }

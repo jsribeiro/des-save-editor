@@ -34,10 +34,10 @@ The in-game status screen (taken at the time of `USR-DATA-2`) matches these fiel
 | `PLAYER_BASEMAXMP` / `PLAYER_CURRENTMAXMP` / `PLAYER_CURRENTMP` | 73 / 73 / 73 | MP 73 / 73 |
 | `PLAYER_BASEMAXSP` / `PLAYER_CURRENTMAXSP` / `PLAYER_CURRENTSP` | 95 / 95 / 95 | Stamina 95 |
 
-Other things visible in game but **not** found in the save: class (Knight), body type (Type B),
+Class (Knight) is `PLAYER_ARCHETYPE` = 1 and body type (Type B) is `PLAYER_ISMALE` = true; both
+names were found by guessing. Other things visible in game but **not** found in the save:
 Souls Required (829), equip/item burden, item discovery, attack power, defence and resistances.
-Most of these are probably calculated by the game; class and body type are probably stored under
-keys we haven't named yet.
+These are probably calculated by the game.
 
 Other notable values, the same in all three files:
 
@@ -46,6 +46,33 @@ Other notable values, the same in all three files:
 - A 16-byte blob `0x739273B8` holding (0, 0.477, 0, 0), probably the player rotation.
 - `CHARACTER_NEW_ARCHSTONE` = 1.
 - A 93-record object `0x639244AA` with colours and face-slider floats (the character creator).
+
+## Character creation saves (`RE/`)
+
+Five new characters, saved at the start of the Outpost Passage (tutorial), to map character creation
+choices. Animation style matched the body type on A–D; E has body Type A with animation style B.
+
+| File | Class | `PLAYER_ARCHETYPE` | Body type | `PLAYER_ISMALE` | Gift (menu) | `PLAYER_STARTINGGIFT` | Voice (menu) | `PLAYER_VOICETYPE` |
+|---|---|---|---|---|---|---|---|---|
+| `USR-DATA-A` | Soldier | 0 | Type A | false | None | 0 | 1st | 3 |
+| `USR-DATA-B` | Royalty | 9 | Type B | true | last | 9 | last | 2 |
+| `USR-DATA-C` | Magician | 4 | Type A | false | 1st | 1 | 2nd | 4 |
+| `USR-DATA-D` | Thief | 7 | Type B | true | 2nd | 2 | 3rd | 5 |
+| `USR-DATA-E` | Temple Knight | 8 | Type A | false | 3rd | 3 | 4th | 0 |
+
+Starting attributes, HP, MP and stamina (base = current in all four):
+
+| Class | VIT | INT | END | STR | DEX | MAG | FAI | LCK | HP | MP | Stamina |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Soldier | 14 | 9 | 12 | 12 | 11 | 8 | 10 | 10 | 659 | 57 | 95 |
+| Royalty | 8 | 12 | 8 | 9 | 12 | 13 | 12 | 7 | 531 | 81 | 88 |
+| Magician | 9 | 15 | 10 | 9 | 11 | 15 | 6 | 11 | 552 | 106 | 91 |
+| Thief | 10 | 13 | 10 | 9 | 14 | 10 | 8 | 15 | 573 | 89 | 91 |
+
+`0xA3C2D71A` is the animation style (true = B): it followed body type on A–D and animation style
+on E. The resistance totals
+(`0x6E704021`, `0x21164EAD`, `0x36553DB7`) are `0xFFFFFFFF` on the Soldier only. The character-creator
+object `0x639244AA` and the inventory (starting equipment) differ throughout.
 
 ## Inventory
 

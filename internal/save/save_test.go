@@ -94,3 +94,33 @@ func TestEditAndResize(t *testing.T) {
 		t.Errorf("original buffer modified: %v", err)
 	}
 }
+
+// New characters made to map character creation choices; see samples/README.md.
+func TestCharacterCreationSamples(t *testing.T) {
+	for _, c := range []struct{ file, archetype, isMale, gift, voice string }{
+		{"A", "0", "false", "0", "3"}, // Soldier, Type A, no gift, 1st voice
+		{"B", "9", "true", "9", "2"},  // Royalty, Type B, last gift, last voice
+		{"C", "4", "false", "1", "4"}, // Magician, Type A, 1st gift, 2nd voice
+		{"D", "7", "true", "2", "5"},  // Thief, Type B, 2nd gift, 3rd voice
+		{"E", "8", "false", "3", "0"}, // Temple Knight, Type A (animation B), 3rd gift, 4th voice
+	} {
+		s, err := Parse(loadSample(t, "../../samples/RE/USR-DATA-"+c.file))
+		if err != nil {
+			t.Fatalf("%s: %v", c.file, err)
+		}
+		if out := s.Bytes(); !bytes.Equal(out, loadSample(t, "../../samples/RE/USR-DATA-"+c.file)) {
+			t.Errorf("%s: re-serialized save differs", c.file)
+		}
+		for name, want := range map[string]string{
+			"PLAYER_NAME":         c.file,
+			"PLAYER_ARCHETYPE":    c.archetype,
+			"PLAYER_ISMALE":       c.isMale,
+			"PLAYER_STARTINGGIFT": c.gift,
+			"PLAYER_VOICETYPE":    c.voice,
+		} {
+			if got := s.FindName(name).String(); got != want {
+				t.Errorf("%s: %s = %s, want %s", c.file, name, got, want)
+			}
+		}
+	}
+}
