@@ -14,7 +14,7 @@ VERSION  := $(shell sed -n 's/^ *Version *= *"\(.*\)"/\1/p' FyneApp.toml)
 DIST     := dist
 BUILD_TMP := $(DIST)/.tmp
 LDFLAGS  := -s -w
-FYNE     ?= $(shell go env GOPATH)/bin/fyne
+FYNE     ?= $(subst \,/,$(shell go env GOPATH))/bin/fyne
 MINGW_CC ?= x86_64-w64-mingw32-gcc
 
 .PHONY: all test cli macos windows linux clean
