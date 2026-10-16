@@ -2,5 +2,5 @@
 Icon = "Icon.png"
 Name = "DeS Save Editor"
 ID = "io.github.jsribeiro.des-save-editor"
-Version = "0.1.0"
+Version = "0.2.0"
 Build = 5

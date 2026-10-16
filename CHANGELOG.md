@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-17
+
 ### Added
 
 - **Character creation fields**, each as a drop-down: class, body type, animation style, voice and
@@ -50,5 +52,6 @@ First release.
 - Save format notes in `docs/FORMAT.md` and three sample saves.
 - Builds for macOS (universal), Windows and Linux, published by GitHub Actions on tags.
 
-[Unreleased]: https://github.com/jsribeiro/des-save-editor/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jsribeiro/des-save-editor/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jsribeiro/des-save-editor/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/jsribeiro/des-save-editor/releases/tag/v0.1.0
